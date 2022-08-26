@@ -1,0 +1,55 @@
+{
+    "trapped-doors": 
+	{
+		"keybindings":
+		{
+			"peekDoor":
+			{
+				"name": "Peek Door",
+				"hint": "Clicking on a door while this key is pressed will cause it to open slightly."
+			},
+			"revealSecretDoor":
+			{
+				"name": "Reveal Secret Door",
+				"hint": "Clicking on a door with this key pressed will cause it to go from a secret door to a regular door."
+			},
+			"disarmTrappedDoor":
+			{
+				"name": "Disarm Trapped Door",
+				"hint": "Clicking on a door with this key pressed will toggle whether or not the trap associated with it is armed."
+			}
+		},
+		"settings": 
+		{
+			"pauseOnTrap":
+			{
+				"name": "Pause on Trap",
+				"hint": "Pause the game when a trapped door is triggered."
+			},
+			"openOnTrap":
+			{
+				"name": "Open on Trap",
+				"hint": "Open the door when a trapped door is triggered."
+			}
+		},
+		"wallConfig":
+		{
+			"pause":
+			{
+				"always": "Pause the game when this door is opened",
+				"once": "Pause the game when this door is opened for the first time",
+				"note": "If both options are checked, the game will pause every time the door is opened."
+			},
+			"trap":
+			{
+				"onDoor": "Trap on Door",
+				"note": "If a trap is chosen here, it will be active"
+			},
+			"key":
+			{
+				"generate": "Generate a key for this door",
+				"note": "If a key is already generated for this door, nothing will happen"
+			}
+		}
+	}
+}
