@@ -43,7 +43,7 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 {
 	// Don't show trap information if it's not a door
 	// TODO: Should we show this even when it's not a door?
-	if (data.isDoor)
+	if (data.document.door == 1)
 	{
 		// Try to find the trap assigned to this door
 		let trapsIndex = game.packs.get('trapped-doors.td-traps').index;
@@ -58,7 +58,7 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 			}
 		});
 		// Otherwise, the emmpty option will be selected
-		let selectBlock = `<select name="trapID" id="trapID">
+		let trapSelectBlock = `<select name="trapID" id="trapID">
 				<option value ="" ${emptySelect}></option>`;
 		// Iterate through the trap IDs in the index to construct the options list
 		indexArray.forEach((key) => 
@@ -69,10 +69,34 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 				// If this trap ID matches what the door has attached to it, select that option by default
 				selected = 'selected';
 			}
-			selectBlock += `
+			trapSelectBlock += `
 				<option value = "${key}" ${selected}>${trapsIndex.get(key).name}</option>`;
 		});
-		selectBlock += `
+		trapSelectBlock += `
+			</select>`;
+
+		let doorHingeSide = data.object.flags.trappedDoors?.hingeSide;
+		let doorOpenDirection = data.object.flags.trappedDoors?.openDirection;
+		let doorHingeSet = doorHingeSide == "cw" || doorHingeSide == "ccw";
+		let doorOpenDirectionSet = doorOpenDirection == "cw" || doorOpenDirection == "ccw";
+
+		let doorHingeSideCW = doorHingeSide == "cw";
+		let hingeSideCW = "cw" == game.settings.get(settingsKey, "hingeSide");
+		let cwHingeSelected = doorHingeSet ? (doorHingeSideCW ? 'selected' : '') : (hingeSideCW ? 'selected' : '');
+		let ccwHingeSelected = cwHingeSelected == 'selected' ? '' : 'selected';
+
+		let doorOpenDirectionCW = doorOpenDirection == "cw";
+		let openDirectionCW = "cw" == game.settings.get(settingsKey, "openDirection");
+		let cwOpenSelected = doorOpenDirectionSet ? (doorOpenDirectionCW ? 'selected' : '') : (openDirectionCW ? 'selected' : '');
+		let ccwOpenSelected = cwOpenSelected == 'selected' ? '' : 'selected';
+
+		let hingeSideSelectBlock = `<select name="hingeSide" id="hingeSide">
+				<option value = "cw" ${cwHingeSelected}>${game.i18n.localize("trapped-doors.settings.directions.cw")}</option>
+				<option value = "ccw" ${ccwHingeSelected}>${game.i18n.localize("trapped-doors.settings.directions.ccw")}</option>
+			</select>`;
+		let openDirectionSelectBlock = `<select name="openDirection" id="openDirection">
+				<option value = "cw" ${cwOpenSelected}>${game.i18n.localize("trapped-doors.settings.directions.cw")}</option>
+				<option value = "ccw" ${ccwOpenSelected}>${game.i18n.localize("trapped-doors.settings.directions.ccw")}</option>
 			</select>`;
 
 		// Check the game's items before going through all the actors
@@ -95,7 +119,7 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 			<p class="notes">${game.i18n.localize("trapped-doors.wallConfig.pause.note")}</p>
 			<div class="form-group">
 				<label for="trapID">${game.i18n.localize("trapped-doors.wallConfig.trap.onDoor")}</label>
-				${selectBlock}
+				${trapSelectBlock}
 			</div>
 			<p class="notes">${game.i18n.localize("trapped-doors.wallConfig.trap.note")}</p>
 			<div class="form-group">
@@ -103,6 +127,18 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 				<input type="checkbox" name="generateKey" ${readonly}/>
 			</div>
 			<p class="notes">${game.i18n.localize("trapped-doors.wallConfig.key.note")}</p>
+			<div class="form-group">
+				<label for="hingeSide">${game.i18n.localize("trapped-doors.settings.hingeSide.name")}</label>
+				${hingeSideSelectBlock}
+			</div>
+			<div class="form-group">
+				<label for="openDirection">${game.i18n.localize("trapped-doors.settings.openDirection.name")}</label>
+				${openDirectionSelectBlock}
+			</div>
+			<div class="form-group">
+				<label for="allowPeeking">${game.i18n.localize("trapped-doors.wallConfig.peek.allow")}</label>
+				<input type="checkbox" name="allowPeeking"/>
+			</div>
 		`;
 		html.find(".form-group").last().after(settingsBlock);
 
@@ -110,6 +146,7 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 		const input = (name) => html.find(`input[name="${name}"]`);
 		input("pauseGame").prop("checked", data.object.flags.trappedDoors?.pauseGame);
 		input("pauseGameOnce").prop("checked", data.object.flags.trappedDoors?.pauseGameOnce);
+		input("allowPeeking").prop("checked", data.object.flags.trappedDoors?.allowPeeking == null? true : data.object.flags.trappedDoors?.allowPeeking);
 
 		// Force config window to resize
 		wallConfig.setPosition({height: "auto"});

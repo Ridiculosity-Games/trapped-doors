@@ -19,7 +19,7 @@ export function registerKeybindings()
 		onDown: handlePeekDoor,
 		onUp: handlePeekDoor,
 		restricted: false,
-		editable: [{key: "CtrlLeft"}],
+		editable: [{key: "ControlLeft"}],
 		precedence: -1,
 	});
 	game.keybindings.register(settingsKey, "revealSecretDoor", 

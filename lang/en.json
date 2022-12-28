@@ -30,6 +30,26 @@
 			{
 				"name": "Open on Trap",
 				"hint": "Open the door when a trapped door is triggered."
+			},
+			"peekDegrees":
+			{
+				"name": "Peek Degrees",
+				"hint": "The number of degrees to peek when a door is opened."
+			},
+			"hingeSide":
+			{
+				"name": "Hinge Side",
+				"hint": "Which door node(endpoint) will be treated as having a hinge."
+			},
+			"openDirection":
+			{
+				"name": "Open Direction",
+				"hint": "Which direction the hinge will open."
+			},
+			"directions":
+			{
+				"cw": "Clockwise from L",
+				"ccw": "Counter-Clockwise from L"
 			}
 		},
 		"wallConfig":
@@ -49,6 +69,10 @@
 			{
 				"generate": "Generate a key for this door",
 				"note": "If a key is already generated for this door, nothing will happen"
+			},
+			"peek":
+			{
+				"allow": "Allow peeking for this door"
 			}
 		}
 	}

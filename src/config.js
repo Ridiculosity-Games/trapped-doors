@@ -12,7 +12,22 @@ import { settingsKey } from "./settings.js";
  */
 export async function onWallConfigUpdate(event, formData) 
 {
-	const updateData = {flags: {trappedDoors: {pauseGame: formData.pauseGame, pauseGameOnce: formData.pauseGameOnce, trapID: formData.trapID, trapActive: formData.trapID != ''}}};
+	const updateData =
+	{
+		flags:
+		{
+			trappedDoors:
+			{
+				allowPeeking: formData.allowPeeking,
+				hingeSide: formData.hingeSide,
+				openDirection: formData.openDirection,
+				pauseGame: formData.pauseGame,
+				pauseGameOnce: formData.pauseGameOnce,
+				trapID: formData.trapID,
+				trapActive: formData.trapID != ''
+			}
+		}
+	};
 	let ids = this.editTargets;
 	if (ids.length == 0) {
 		ids = [this.object.id];

@@ -1,58 +1,57 @@
 {
-	"name": "trapped-doors",
-	"title": "Trapped Doors",
-	"description": "A module that adds functionality to doors, such as attaching traps and generating keys that allow the players to lock/unlock.",
-	"version": "1.0.0",
-	"compatibility":
-	{
-		"minimum": "9",
-		"verified": "9",
-		"maximum": "10"
-	},
-	"socket": "true",
-	"authors":
-	[
-		{
-			"name": "Kurt Meyer, Jr",
-			"email": "development@ridiculositygames.com"
-		}
-	],
-	"url": "https://github.com/Ridiculosity-Games/trapped-doors",
-	"manifest": "https://raw.githubusercontent.com/Ridiculosity-Games/trapped-doors/main/module.json",
-	"download": "https://github.com/Ridiculosity-Games/trapped-doors/releases/download/1.0.0/module.zip",
-	"license": "https://github.com/Ridiculosity-Games/trapped-doors/blob/main/LICENSE",
-	"readme": "https://github.com/Ridiculosity-Games/trapped-doors/blob/main/README.md",
-	"bugs": "https://github.com/Ridiculosity-Games/trapped-doors/issues",
-	"esmodules":
-	[
-		"lib/libwrapper_shim.js",
-		"src/main.js"
-	],
-	"languages": 
-	[
-		{
-			"lang": "en",
-			"name": "English",
-			"path": "lang/en.json"
-		}
-	],
-	"packs": 
-	[
-		{
-			"name": "td-items",
-			"label": "Items (Trapped Doors)",
-			"path": "packs/td-items.db",
-			"system": "dnd5e",
-			"entity": "Item",
-			"module": "trapped-doors"
-		},
-		{
-			"name": "td-traps",
-			"label": "Traps (Trapped Doors)",
-			"path": "packs/td-traps.db",
-			"system": "dnd5e",
-			"entity": "Actor",
-			"module": "trapped-doors"
-		}
-	]
+  "title": "Trapped Doors",
+  "description": "A module that adds functionality to doors, such as attaching traps and generating keys that allow the players to lock/unlock.",
+  "version": "1.1.0",
+  "compatibility": {
+    "minimum": "9",
+    "verified": "10",
+    "maximum": "10"
+  },
+  "socket": true,
+  "authors": [
+    {
+      "name": "Kurt Meyer, Jr",
+      "email": "development@ridiculositygames.com",
+      "flags": {}
+    }
+  ],
+  "url": "https://github.com/Ridiculosity-Games/trapped-doors",
+  "manifest": "https://raw.githubusercontent.com/Ridiculosity-Games/trapped-doors/main/module.json",
+  "download": "https://github.com/Ridiculosity-Games/trapped-doors/releases/download/1.1.0/module.zip",
+  "license": "https://github.com/Ridiculosity-Games/trapped-doors/blob/main/LICENSE",
+  "readme": "https://github.com/Ridiculosity-Games/trapped-doors/blob/main/README.md",
+  "bugs": "https://github.com/Ridiculosity-Games/trapped-doors/issues",
+  "esmodules": [
+    "lib/libwrapper_shim.js",
+    "src/main.js"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    }
+  ],
+  "packs": [
+    {
+      "name": "td-items",
+      "label": "Items (Trapped Doors)",
+      "path": "packs/td-items.db",
+      "system": "dnd5e",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "td-traps",
+      "label": "Traps (Trapped Doors)",
+      "path": "packs/td-traps.db",
+      "system": "dnd5e",
+      "type": "Actor",
+      "private": false,
+      "flags": {}
+    }
+  ],
+  "id": "trapped-doors"
 }
