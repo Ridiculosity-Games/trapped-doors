@@ -1,9 +1,9 @@
 {
   "title": "Trapped Doors",
   "description": "A module that adds functionality to doors, such as attaching traps and generating keys that allow the players to lock/unlock.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "compatibility": {
-    "minimum": "9",
+    "minimum": "10",
     "verified": "10",
     "maximum": "10"
   },
@@ -17,7 +17,7 @@
   ],
   "url": "https://github.com/Ridiculosity-Games/trapped-doors",
   "manifest": "https://raw.githubusercontent.com/Ridiculosity-Games/trapped-doors/main/module.json",
-  "download": "https://github.com/Ridiculosity-Games/trapped-doors/releases/download/1.1.0/module.zip",
+  "download": "https://github.com/Ridiculosity-Games/trapped-doors/releases/download/1.1.1/module.zip",
   "license": "https://github.com/Ridiculosity-Games/trapped-doors/blob/main/LICENSE",
   "readme": "https://github.com/Ridiculosity-Games/trapped-doors/blob/main/README.md",
   "bugs": "https://github.com/Ridiculosity-Games/trapped-doors/issues",
@@ -44,10 +44,28 @@
       "flags": {}
     },
     {
+      "name": "td-items",
+      "label": "Items (Trapped Doors)",
+      "path": "packs/td-pf2eitems.db",
+      "system": "pf2e",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
       "name": "td-traps",
       "label": "Traps (Trapped Doors)",
       "path": "packs/td-traps.db",
       "system": "dnd5e",
+      "type": "Actor",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "td-traps",
+      "label": "Traps (Trapped Doors)",
+      "path": "packs/td-pf2etraps.db",
+      "system": "pf2e",
       "type": "Actor",
       "private": false,
       "flags": {}

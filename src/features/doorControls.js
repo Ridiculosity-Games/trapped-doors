@@ -258,14 +258,28 @@ async function socketTrip(wallID)
 	if (trapActor.length > 0)
 	{
 		// If it does exist, (Which it shouldn't, because we should be deleting it, but we're here, that's life), roll the Effect
-		trapActor[0].items.filter(i => foundry.utils.getProperty(i, "name") === 'Effect')[0].use({rollMode: CONST.DICE_ROLL_MODES.PUBLIC});
+		if (game.system.id == 'pf2e')
+		{
+			trapActor[0].system.actions[0].roll();
+		}
+		else
+		{
+			trapActor[0].items.filter(i => foundry.utils.getProperty(i, "name") === 'Effect')[0].use({rollMode: CONST.DICE_ROLL_MODES.PUBLIC});
+		}
 	}
 	else
 	{
 		// If it doesn't exist, import the ID from the compendium and put it in the "Door Traps" folder, then schedule delete in five minutes
 		let promisedActor = await game.actors.importFromCompendium(trapsPack, wall.document.flags.trappedDoors.trapID);
 		trapActor.push(promisedActor);
-		promisedActor.items.filter(i => foundry.utils.getProperty(i, "name") === 'Effect')[0].use({rollMode: CONST.DICE_ROLL_MODES.PUBLIC});
+		if (game.system.id == 'pf2e')
+		{
+			promisedActor.system.actions[0].roll();
+		}
+		else
+		{
+			promisedActor.items.filter(i => foundry.utils.getProperty(i, "name") === 'Effect')[0].use({rollMode: CONST.DICE_ROLL_MODES.PUBLIC});
+		}
 		promisedActor.update({folder: game.folders.filter(i => i.name == 'Door Traps')[0].id})
 		setTimeout(deleteTrap, 300000, trapActor[0]);
 	}
@@ -314,8 +328,16 @@ export function reveal(wall)
  */
 export function toggleLock(user, wall, socket)
 {
-	let keys = user.character.items.filter(i => i.getFlag(settingsKey, 'wallID') == wall.document._id);
-	if (keys.length > 0)
+	var keys;
+	if (game.system.id == 'pf2e')
+	{
+		keys = user.character.inventory.filter(i => i.getFlag(settingsKey, 'wallID') == wall.document._id);
+	}
+	else
+	{
+		keys = user.character.items.filter(i => i.getFlag(settingsKey, 'wallID') == wall.document._id);
+	}
+	if (keys != null && keys.length > 0)
 	{
 		socket.executeAsGM('socketToggleLock', wall.document._id, wall.document.ds == CONST.WALL_DOOR_STATES.LOCKED ? CONST.WALL_DOOR_STATES.CLOSED : CONST.WALL_DOOR_STATES.LOCKED);
 		return true;
