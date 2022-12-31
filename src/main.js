@@ -28,8 +28,6 @@ Hooks.once("init", () =>
 		await wrapped(event, formData);
 		return Config.onWallConfigUpdate.call(this, event, formData)
 	}, "WRAPPER");
-
-	// TODO: Create a Door Traps folder if it doesn't exist
 });
 
 // Register socket methods
@@ -45,35 +43,58 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 	// TODO: Should we show this even when it's not a door?
 	if (data.document.door == 1)
 	{
-		// Try to find the trap assigned to this door
-		let trapsIndex = game.packs.get('trapped-doors.td-traps').index;
-		let indexArray = Array.from(trapsIndex.keys());
-		let emptySelect = 'selected';
-		indexArray.forEach((key) =>
+		let trapSelectBlock = ``;
+		let keyBlock = ``;
+		if (game.system.id == 'pf2e' || game.system.id == 'dnd5e')
 		{
-			if (key == data.object.flags.trappedDoors?.trapID)
+			// Try to find the trap assigned to this door
+			let trapsIndex = game.packs.get('trapped-doors.td-traps').index;
+			let indexArray = Array.from(trapsIndex.keys());
+			let emptySelect = 'selected';
+			indexArray.forEach((key) =>
 			{
-				// If we find a key, we don't want to select the empty option
-				emptySelect = '';
-			}
-		});
-		// Otherwise, the emmpty option will be selected
-		let trapSelectBlock = `<select name="trapID" id="trapID">
-				<option value ="" ${emptySelect}></option>`;
-		// Iterate through the trap IDs in the index to construct the options list
-		indexArray.forEach((key) => 
-		{
-			let selected = '';
-			if (key == data.object.flags.trappedDoors?.trapID)
+				if (key == data.object.flags.trappedDoors?.trapID)
+				{
+					// If we find a key, we don't want to select the empty option
+					emptySelect = '';
+				}
+			});
+			// Otherwise, the emmpty option will be selected
+			trapSelectBlock = `<div class="form-group">
+				<label for="trapID">${game.i18n.localize("trapped-doors.wallConfig.trap.onDoor")}</label>
+				<select name="trapID" id="trapID">
+					<option value ="" ${emptySelect}></option>`;
+			// Iterate through the trap IDs in the index to construct the options list
+			indexArray.forEach((key) =>
 			{
-				// If this trap ID matches what the door has attached to it, select that option by default
-				selected = 'selected';
-			}
+				let selected = '';
+				if (key == data.object.flags.trappedDoors?.trapID)
+				{
+					// If this trap ID matches what the door has attached to it, select that option by default
+					selected = 'selected';
+				}
+				trapSelectBlock += `
+					<option value = "${key}" ${selected}>${trapsIndex.get(key).name}</option>`;
+			});
 			trapSelectBlock += `
-				<option value = "${key}" ${selected}>${trapsIndex.get(key).name}</option>`;
-		});
-		trapSelectBlock += `
-			</select>`;
+				</select>
+			</div>
+			<p class="notes">${game.i18n.localize("trapped-doors.wallConfig.trap.note")}</p>`;
+
+			// Check the game's items before going through all the actors
+			let keyFound = game.items.filter(i => i.getFlag(settingsKey, 'wallID') == data.object._id).length > 0;
+			if (!keyFound)
+			{
+				// If we didn't find the key in the items, check all the actors for a key matching the door
+				keyFound = game.actors.filter(i => i.items.filter(o => o.getFlag(settingsKey, 'wallID') == data.object._id).length > 0).length > 0;
+			}
+			let readonly = keyFound ? 'disabled' : '';
+			keyBlock = `<div class="form-group">
+				<label for="generateKey">${game.i18n.localize("trapped-doors.wallConfig.key.generate")}</label>
+				<input type="checkbox" name="generateKey" ${readonly}/>
+			</div>
+			<p class="notes">${game.i18n.localize("trapped-doors.wallConfig.key.note")}</p>`;
+		}
 
 		let doorHingeSide = data.object.flags.trappedDoors?.hingeSide;
 		let doorOpenDirection = data.object.flags.trappedDoors?.openDirection;
@@ -99,14 +120,6 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 				<option value = "ccw" ${ccwOpenSelected}>${game.i18n.localize("trapped-doors.settings.directions.ccw")}</option>
 			</select>`;
 
-		// Check the game's items before going through all the actors
-		let keyFound = game.items.filter(i => i.getFlag(settingsKey, 'wallID') == data.object._id).length > 0;
-		if (!keyFound)
-		{
-			// If we didn't find the key in the items, check all the actors for a key matching the door
-			keyFound = game.actors.filter(i => i.items.filter(o => o.getFlag(settingsKey, 'wallID') == data.object._id).length > 0).length > 0;
-		}
-		let readonly = keyFound ? 'disabled' : '';
 		const settingsBlock = `
 			<div class="form-group">
 				<label for="pauseGame">${game.i18n.localize("trapped-doors.wallConfig.pause.always")}</label>
@@ -117,16 +130,8 @@ Hooks.on("renderWallConfig", (wallConfig, html, data) =>
 				<input type="checkbox" name="pauseGameOnce"/>
 			</div>
 			<p class="notes">${game.i18n.localize("trapped-doors.wallConfig.pause.note")}</p>
-			<div class="form-group">
-				<label for="trapID">${game.i18n.localize("trapped-doors.wallConfig.trap.onDoor")}</label>
-				${trapSelectBlock}
-			</div>
-			<p class="notes">${game.i18n.localize("trapped-doors.wallConfig.trap.note")}</p>
-			<div class="form-group">
-				<label for="generateKey">${game.i18n.localize("trapped-doors.wallConfig.key.generate")}</label>
-				<input type="checkbox" name="generateKey" ${readonly}/>
-			</div>
-			<p class="notes">${game.i18n.localize("trapped-doors.wallConfig.key.note")}</p>
+			${trapSelectBlock}
+			${keyBlock}
 			<div class="form-group">
 				<label for="hingeSide">${game.i18n.localize("trapped-doors.settings.hingeSide.name")}</label>
 				${hingeSideSelectBlock}

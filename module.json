@@ -1,14 +1,17 @@
 {
+  "id": "trapped-doors",
   "title": "Trapped Doors",
   "description": "A module that adds functionality to doors, such as attaching traps and generating keys that allow the players to lock/unlock.",
-  "version": "1.1.1",
-  "compatibility": {
+  "version": "1.1.2",
+  "compatibility":
+  {
     "minimum": "10",
     "verified": "10",
     "maximum": "10"
   },
   "socket": true,
-  "authors": [
+  "authors":
+  [
     {
       "name": "Kurt Meyer, Jr",
       "email": "development@ridiculositygames.com",
@@ -17,15 +20,17 @@
   ],
   "url": "https://github.com/Ridiculosity-Games/trapped-doors",
   "manifest": "https://raw.githubusercontent.com/Ridiculosity-Games/trapped-doors/main/module.json",
-  "download": "https://github.com/Ridiculosity-Games/trapped-doors/releases/download/1.1.1/module.zip",
+  "download": "https://github.com/Ridiculosity-Games/trapped-doors/releases/download/1.1.2/module.zip",
   "license": "https://github.com/Ridiculosity-Games/trapped-doors/blob/main/LICENSE",
   "readme": "https://github.com/Ridiculosity-Games/trapped-doors/blob/main/README.md",
   "bugs": "https://github.com/Ridiculosity-Games/trapped-doors/issues",
-  "esmodules": [
+  "esmodules":
+  [
     "lib/libwrapper_shim.js",
     "src/main.js"
   ],
-  "languages": [
+  "languages":
+  [
     {
       "lang": "en",
       "name": "English",
@@ -33,7 +38,8 @@
       "flags": {}
     }
   ],
-  "packs": [
+  "packs":
+  [
     {
       "name": "td-items",
       "label": "Items (Trapped Doors)",
@@ -71,5 +77,18 @@
       "flags": {}
     }
   ],
-  "id": "trapped-doors"
+  "relationships":
+  {
+    "requires":
+    [
+      {
+        "id": "socketlib",
+        "type": "module",
+        "compatibility":
+        {
+          "verified": "1.0.12"
+        }
+      }
+    ]
+  }
 }

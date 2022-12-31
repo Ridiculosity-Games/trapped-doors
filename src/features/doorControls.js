@@ -280,7 +280,16 @@ async function socketTrip(wallID)
 		{
 			promisedActor.items.filter(i => foundry.utils.getProperty(i, "name") === 'Effect')[0].use({rollMode: CONST.DICE_ROLL_MODES.PUBLIC});
 		}
-		promisedActor.update({folder: game.folders.filter(i => i.name == 'Door Traps')[0].id})
+
+		// TODO: Localize this
+		let trapFolders = game.folders.filter(i => i.name == 'Door Traps');
+		if (trapFolders == null || trapFolders.length == 0)
+		{
+			let folder = await Folder.create({name: "Door Traps", type: "Actor"});
+			trapFolders = [folder];
+		}
+
+		promisedActor.update({folder: trapFolders[0].id})
 		setTimeout(deleteTrap, 300000, trapActor[0]);
 	}
 	// Deactivate the trap since we just tripped it
