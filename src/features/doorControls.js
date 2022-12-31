@@ -254,7 +254,7 @@ async function socketTrip(wallID)
 	let wall = game.canvas.walls.objects.children.filter(i => i.document._id == wallID)[0];
 	let trapsPack = game.packs.get('trapped-doors.td-traps');
 	// Look for an existing actor for the trap on a door if it exists
-	let trapActor = game.actors.filter(i => i.flags.core?.sourceId == `Compendium.trapped-doors.td-traps.${wall.document.flags.trappedDoors.trapID}`);
+	let trapActor = game.actors.filter(i => i.flags.trappedDoors?.trapID == `${wall.document.flags.trappedDoors.trapID}`);
 	if (trapActor.length > 0)
 	{
 		// If it does exist, (Which it shouldn't, because we should be deleting it, but we're here, that's life), roll the Effect
@@ -289,7 +289,7 @@ async function socketTrip(wallID)
 			trapFolders = [folder];
 		}
 
-		promisedActor.update({folder: trapFolders[0].id})
+		promisedActor.update({folder: trapFolders[0].id, flags: {trappedDoors: {trapID: wall.document.flags.trappedDoors.trapID}}});
 		setTimeout(deleteTrap, 300000, trapActor[0]);
 	}
 	// Deactivate the trap since we just tripped it
