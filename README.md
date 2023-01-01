@@ -2,8 +2,9 @@
 A module for Foundry Virtual Tabletop that adds functionality to doors:
   * Allows the GM to attach traps to doors (with some included for dnd5e, add your own traps to the td-traps compendium in-game to expand it!)
     * Supported in dnd5e and pf2e, please submit an issue if you'd like another system supported
-  * Adds a keybinding for the GM to quickly arm/disarm trapped doors
   * Allows the GM to generate a key that will allow players to lock/unlock doors when in their inventory
+    * Supported in dnd5e and pf2e, please submit an issue if you'd like another system supported
+  * Adds a keybinding for the GM to quickly arm/disarm trapped doors
   * Allows GMs to customize how doors should be peeked, and allows GMs and players both to peek doors open
   
 # Trapping a Door (pf2e and dnd5e)
